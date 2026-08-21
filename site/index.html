@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sleep Predictor — a browser-based machine learning experience estimating sleep quality from five everyday signals." />
+  <title>Sleep Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <section class="hero section-shell">
+      <nav class="topbar">
+        <a class="brand" href="#top" aria-label="Sleep Predictor home">Sleep Predictor</a>
+        <div class="nav-links">
+          <a href="#predictor">Predict</a>
+          <a href="#story">Story</a>
+          <a href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid" id="top">
+        <div>
+          <p class="eyebrow">SLEEP · MACHINE LEARNING · HUMAN DATA</p>
+          <h1>What might tonight’s <em>sleep quality</em> look like?</h1>
+          <p class="hero-copy">A browser-based machine-learning experiment that turns five everyday signals into an estimated sleep-quality score — trained locally from the project’s original sleep dataset.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#predictor">Try the predictor</a>
+            <a class="button button-secondary" href="#story">See how it works</a>
+          </div>
+          <p class="microcopy">Exploratory portfolio project. Not a medical device or medical advice.</p>
+        </div>
+
+        <aside class="hero-card" aria-label="Project overview">
+          <p class="card-kicker">THE QUESTION</p>
+          <blockquote>Can a small set of everyday behavioral and physiological signals help estimate sleep quality?</blockquote>
+          <div class="signal-list">
+            <span>Heart rate</span>
+            <span>Coffee</span>
+            <span>Workout</span>
+            <span>Steps</span>
+            <span>Time in bed</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="predictor-wrap section-shell" id="predictor">
+      <div class="section-intro">
+        <p class="eyebrow">INTERACTIVE MODEL</p>
+        <h2>Estimate your sleep quality</h2>
+        <p>The model is trained in your browser from the repository’s included historical sleep data. Nothing you enter is sent to a server.</p>
+      </div>
+
+      <div class="predictor-grid">
+        <form class="panel form-panel" id="sleep-form">
+          <div class="field-grid">
+            <label>
+              <span>Heart rate <small>bpm</small></span>
+              <input id="heart-rate" type="number" min="30" max="220" step="1" value="60" required />
+            </label>
+            <label>
+              <span>Activity <small>steps</small></span>
+              <input id="steps" type="number" min="0" step="100" value="7000" required />
+            </label>
+            <label>
+              <span>Time in bed <small>hours</small></span>
+              <input id="hours" type="number" min="0.5" max="16" step="0.25" value="8" required />
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <label class="toggle-card">
+              <input id="coffee" type="checkbox" />
+              <span><strong>Coffee</strong><small>I drank coffee that day</small></span>
+            </label>
+            <label class="toggle-card">
+              <input id="workout" type="checkbox" checked />
+              <span><strong>Workout</strong><small>I worked out that day</small></span>
+            </label>
+          </div>
+
+          <button class="button button-primary submit-button" type="submit">Estimate sleep quality</button>
+          <p class="model-status" id="model-status">Loading historical sleep data…</p>
+        </form>
+
+        <section class="panel result-panel" aria-live="polite">
+          <p class="card-kicker">ESTIMATED SLEEP QUALITY</p>
+          <div class="score" id="score">—</div>
+          <div class="score-track" aria-hidden="true"><div class="score-fill" id="score-fill"></div></div>
+          <h3 id="score-label">Your result will appear here.</h3>
+          <p id="score-copy">Enter your signals and run the model.</p>
+          <div class="result-meta">
+            <div><span>Model</span><strong>Browser Ridge</strong></div>
+            <div><span>Training data</span><strong id="row-count">—</strong></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="story section-shell" id="story">
+      <div class="section-intro narrow">
+        <p class="eyebrow">FROM 2021 → 2026</p>
+        <h2>An old project, rebuilt as a living system.</h2>
+        <p>Sleep Predictor began as a data-science portfolio project. The original notebook explored multiple regression approaches and reduced the product experience to five practical inputs. This public version turns that work into a self-contained browser experience.</p>
+      </div>
+
+      <div class="story-grid">
+        <article class="story-card">
+          <span>01</span>
+          <h3>Load the data</h3>
+          <p>The site loads the project’s original semicolon-delimited sleep dataset directly from the deployed GitHub Pages bundle.</p>
+        </article>
+        <article class="story-card">
+          <span>02</span>
+          <h3>Engineer the signals</h3>
+          <p>Sleep quality becomes the target. Coffee and workout signals are extracted from sleep notes; zero step values are treated as missing, matching the modern Python rebuild.</p>
+        </article>
+        <article class="story-card">
+          <span>03</span>
+          <h3>Train in the browser</h3>
+          <p>A Ridge regression model standardizes the five features, imputes missing values with medians, and fits directly in JavaScript.</p>
+        </article>
+        <article class="story-card">
+          <span>04</span>
+          <h3>Predict privately</h3>
+          <p>Your inputs stay on your device. The trained model produces an exploratory score between 0 and 100 without calling a backend.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="evidence section-shell">
+      <div class="evidence-grid">
+        <div>
+          <p class="eyebrow">ORIGINAL MODELING EVIDENCE</p>
+          <h2>The first notebook already contained a real modeling story.</h2>
+          <p>The original 2021 notebook recorded a mean-prediction baseline MAE of 10.56 and compared Linear Regression, Ridge, Random Forest, and XGBoost. Ridge recorded the lowest three-fold cross-validation MAE among those preserved notebook runs at approximately 8.29.</p>
+        </div>
+        <div class="evidence-table" role="table" aria-label="Historical model results">
+          <div class="table-row header" role="row"><span>Historical approach</span><span>Recorded MAE</span></div>
+          <div class="table-row" role="row"><span>Mean baseline</span><strong>10.56</strong></div>
+          <div class="table-row" role="row"><span>Linear Regression</span><strong>8.37</strong></div>
+          <div class="table-row highlight" role="row"><span>Ridge Regression</span><strong>8.29</strong></div>
+          <div class="table-row" role="row"><span>Random Forest</span><strong>8.60</strong></div>
+          <div class="table-row" role="row"><span>XGBoost</span><strong>10.41</strong></div>
+        </div>
+      </div>
+      <p class="microcopy">Historical metrics above are preserved notebook outputs, not newly validated clinical performance claims.</p>
+    </section>
+
+    <section class="closing section-shell">
+      <p class="eyebrow">OPEN PROJECT</p>
+      <h2>See the model, the notebook, and the evolution.</h2>
+      <p>The public experience is intentionally simple. The repository contains the original notebook, the modern Python rebuild, and the browser-native client.</p>
+      <a class="button button-primary" href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">View the GitHub repository</a>
+    </section>
+  </main>
+
+  <footer class="section-shell footer">
+    <span>Sleep Predictor</span>
+    <span>Exploratory machine-learning portfolio project</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
