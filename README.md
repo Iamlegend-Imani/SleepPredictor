@@ -1,16 +1,25 @@
-# Sleep Predictor
+# Sleep Predictor V2
 
-**An exploratory machine-learning project for estimating sleep quality from behavioral and physiological signals.**
+**A reproducible machine-learning experiment for estimating sleep quality from everyday behavioral and physiological signals.**
 
-Sleep Predictor uses historical sleep records to explore a simple question:
+Sleep Predictor began as a 2021 data-science portfolio project. Version 2 rebuilds that work on a current stack and removes the app's dependence on a serialized 2021 model artifact.
 
 > Can a small set of everyday signals help estimate sleep quality?
 
-The project analyzes sleep data, compares multiple regression approaches, interprets feature importance, saves a reduced-feature model, and exposes that model through a Plotly Dash interface.
+## What V2 does
 
-## What the model uses
+The application now rebuilds the model from the included sleep dataset whenever it starts. It:
 
-The saved web model accepts five inputs:
+1. parses sleep quality into a numeric target;
+2. derives a five-feature modeling frame;
+3. handles missing values inside reproducible pipelines;
+4. compares Ridge and Random Forest regression with 5-fold cross-validation;
+5. selects the lower-MAE model;
+6. evaluates the selected model on a held-out test set;
+7. calculates permutation importance on that test set; and
+8. exposes the selected pipeline through an interactive Dash application.
+
+## Model inputs
 
 - Heart rate
 - Coffee intake
@@ -18,27 +27,61 @@ The saved web model accepts five inputs:
 - Activity steps
 - Time in bed
 
-It returns an estimated sleep-quality percentage.
+The output is an exploratory sleep-quality estimate from 0 to 100.
 
-## What is actually in this repository
+## Current architecture
 
-The original notebook contains the substantive data-science work. It:
+```text
+sleepdata1.csv
+      │
+      ▼
+  model.py
+  ├─ clean + engineer features
+  ├─ train/test split
+  ├─ 5-fold model comparison
+  ├─ select best model
+  └─ permutation importance
+      │
+      ▼
+   app.py
+  ├─ model evidence
+  ├─ interactive predictor
+  └─ current evaluation
+      │
+      ▼
+   run.py / Gunicorn
+```
 
-1. loads and explores the sleep dataset;
-2. cleans and engineers sleep-related features;
-3. establishes a mean-prediction baseline;
-4. compares multiple regression models with cross-validation;
-5. uses permutation importance for interpretability;
-6. reduces the web model to five practical inputs; and
-7. saves a `RandomForestRegressor` pipeline as `notebooks/model.joblib`.
+## Modern stack
 
-The included CSV contains 887 sleep observations.
+The V2 branch is pinned to the current stable generation available at the time of the rebuild:
 
-## Recorded model results
+- Dash 4.4.1
+- Plotly 6.9.0
+- pandas 3.0.5
+- scikit-learn 1.9.0
+- Gunicorn 26.0.0
 
-These are outputs preserved in the original 2021 notebook and **have not been independently rerun as part of this refresh**.
+Install and run:
 
-| Approach | Recorded MAE |
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python run.py
+```
+
+For production-style serving:
+
+```bash
+gunicorn run:server
+```
+
+## Original 2021 results
+
+The original notebook is preserved in `notebooks/Project2Portfolio.ipynb`. Its recorded outputs included:
+
+| Approach | Historical recorded MAE |
 | --- | ---: |
 | Mean-prediction baseline | 10.56 |
 | Linear Regression | 8.37 |
@@ -46,82 +89,29 @@ These are outputs preserved in the original 2021 notebook and **have not been in
 | Random Forest | 8.60 |
 | XGBoost | 10.41 |
 
-Lower MAE is better. Ridge regression had the lowest recorded three-fold cross-validation MAE among these comparisons. A reduced-feature random-forest pipeline was saved for the web experience.
+Those numbers are historical notebook outputs. V2 calculates its own model comparison and held-out evaluation at runtime rather than presenting those values as current performance.
 
-## Reduced-model feature importance
+## Why the rebuild matters
 
-The notebook records permutation importance for the five-feature web model:
+The 2021 project contained substantive modeling work, but its application layer still looked like a starter template and depended on an old `model.joblib`. V2 turns it into a reproducible system: the data transformation, model selection, evaluation, and prediction path are visible in code and regenerated from source data.
 
-| Feature | Recorded importance |
-| --- | ---: |
-| Time in bed | 0.693653 |
-| Activity steps | 0.401410 |
-| Worked out | 0.084908 |
-| Drank coffee | 0.075599 |
-| Heart rate | 0.072214 |
+## Repository provenance
 
-These values are model-specific and are not normalized percentages or evidence of causation.
+This repository is **not a fork**, but it was originally created from Ryan Herr's MIT-licensed `dash-template`. The starter license and attribution are intentionally preserved in `LICENSE`.
 
-## App pages
-
-- **Home** — project purpose and model overview
-- **Predict** — interactive five-input sleep-quality estimator
-- **Insights** — recorded model comparison and feature importance
-- **Process** — data preparation and modeling workflow
-
-## Repository structure
-
-```text
-SleepPredictor/
-├── app.py
-├── run.py
-├── pages/
-│   ├── index.py
-│   ├── predictions.py
-│   ├── insights.py
-│   └── process.py
-├── notebooks/
-│   ├── Project2Portfolio.ipynb
-│   ├── model.joblib
-│   └── sleepdata1.csv
-├── sleepdata1.csv
-├── Pipfile
-├── Pipfile.lock
-└── Procfile
-```
-
-## Running the legacy project locally
-
-This project was originally built in 2021. The dependency lock records an older stack, including Dash 1.9.1, category-encoders 2.2.2, and scikit-learn 0.24.2. The serialized model may not load correctly under modern versions of scikit-learn.
-
-For the closest reproduction of the original environment:
-
-```bash
-git clone https://github.com/Iamlegend-Imani/SleepPredictor.git
-cd SleepPredictor
-pipenv install --ignore-pipfile
-pipenv run python run.py
-```
-
-Then open the local Dash server shown in the terminal.
+The sleep analysis, modeling work, project-specific implementation, and V2 rebuild live on top of that starter scaffold.
 
 ## Limitations
 
-This repository is a portfolio and learning project, not a medical product.
+This is an exploratory portfolio project, **not a medical device**.
 
 - The dataset is small and historical.
 - The original dataset provenance is not clearly documented in the repository.
-- Missing values are common in several fields.
-- Recorded model metrics are from the original notebook execution.
-- Feature importance describes the fitted model and dataset; it does not establish causal effects.
+- Several source fields contain substantial missing data.
+- Model performance on this dataset does not establish general clinical validity.
+- Permutation importance describes model behavior, not causal relationships.
 - Predictions should not be used for diagnosis, treatment, or health decisions.
-
-## Project provenance
-
-This repository is **not a fork**, but it was created from Ryan Herr's MIT-licensed `dash-template`. The starter application's MIT license and original attribution are intentionally preserved in `LICENSE`.
-
-The sleep analysis, modeling work, project framing, and project-specific implementation live in this repository on top of that starter scaffold.
 
 ## License
 
-The starter scaffold is distributed under the MIT License included in this repository. See [`LICENSE`](LICENSE) for the original copyright and terms.
+See [`LICENSE`](LICENSE) for the original MIT template copyright and terms.

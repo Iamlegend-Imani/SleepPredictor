@@ -1,0 +1,6 @@
+dash==4.4.1
+plotly==6.9.0
+pandas==3.0.5
+numpy>=2.0,<3
+scikit-learn==1.9.0
+gunicorn==26.0.0
