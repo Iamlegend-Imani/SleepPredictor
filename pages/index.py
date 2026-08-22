@@ -1,44 +1,102 @@
-# Imports from 3rd party libraries
-import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
-import plotly.express as px
 
-# Imports from this application
-from app import app
 
-# 2 column layout. 1st column width = 4/12
-# https://dash-bootstrap-components.opensource.faculty.ai/l/components/layout
-column1 = dbc.Col(
+layout = html.Div(
     [
-        dcc.Markdown(
-            """
-        
-            ## Your Value Proposition
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.P("MACHINE LEARNING · SLEEP · HUMAN DATA", className="text-muted"),
+                        html.H1("What might tonight's sleep quality look like?"),
+                        dcc.Markdown(
+                            """
+Sleep Predictor is an exploratory machine-learning project that estimates a
+sleep-quality score from a small set of behavioral and physiological signals.
 
-            Emphasize how the app will benefit users. Don't emphasize the underlying technology.
-
-            ✅ RUN is a running app that adapts to your fitness levels and designs personalized workouts to help you improve your running.
-
-            ❌ RUN is the only intelligent running app that uses sophisticated deep neural net machine learning to make your run smarter because we believe in ML driven workouts.
-
-            """
+The model uses **time in bed, activity steps, workout status, coffee intake,
+and heart rate** to generate an estimated sleep-quality percentage.
+                            """
+                        ),
+                        dcc.Link(
+                            dbc.Button("Try the predictor", color="primary", className="mr-2"),
+                            href="/predictions",
+                        ),
+                        dcc.Link(
+                            dbc.Button("See the model insights", color="secondary", outline=True),
+                            href="/insights",
+                        ),
+                    ],
+                    md=7,
+                ),
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.H4("At a glance", className="card-title"),
+                                html.P("5 model inputs"),
+                                html.P("887 sleep observations in the included dataset"),
+                                html.P("Random-forest model saved for the web experience"),
+                                html.P("Built as a 2021 data-science portfolio project"),
+                            ]
+                        ),
+                        className="shadow-sm",
+                    ),
+                    md=5,
+                ),
+            ],
+            className="align-items-center",
         ),
-        dcc.Link(dbc.Button('Your Call To Action', color='primary'), href='/predictions')
-    ],
-    md=4,
-)
-
-gapminder = px.data.gapminder()
-fig = px.scatter(gapminder.query("year==2007"), x="gdpPercap", y="lifeExp", size="pop", color="continent",
-           hover_name="country", log_x=True, size_max=60)
-
-column2 = dbc.Col(
-    [
-        dcc.Graph(figure=fig),
+        html.Hr(className="my-5"),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.H4("Predict"),
+                                html.P(
+                                    "Enter a few sleep-related signals and generate an exploratory sleep-quality estimate."
+                                ),
+                            ]
+                        )
+                    ),
+                    md=4,
+                ),
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.H4("Understand"),
+                                html.P(
+                                    "Compare the recorded baseline and model results, then inspect feature importance."
+                                ),
+                            ]
+                        )
+                    ),
+                    md=4,
+                ),
+                dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.H4("Trace"),
+                                html.P(
+                                    "See how raw sleep records were cleaned, modeled, interpreted, and prepared for the app."
+                                ),
+                            ]
+                        )
+                    ),
+                    md=4,
+                ),
+            ],
+        ),
+        dbc.Alert(
+            "This is an exploratory portfolio model, not a medical device and not medical advice.",
+            color="light",
+            className="mt-4",
+        ),
     ]
 )
-
-layout = dbc.Row([column1, column2])
