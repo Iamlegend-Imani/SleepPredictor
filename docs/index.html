@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071019" />
+  <meta name="description" content="Sleep Intelligence — an interactive exploration of sleep quality, habits, and model sensitivity built from the original SleepPredictor project." />
+  <title>Sleep Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+
+  <header class="site-header shell">
+    <a class="brand" href="#top" aria-label="Sleep Intelligence home">
+      <span class="brand-mark">SI</span>
+      <span>Sleep Intelligence</span>
+    </a>
+    <nav>
+      <a href="#explore">Explore</a>
+      <a href="#research">Research</a>
+      <a href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="eyebrow">SLEEPPREDICTOR · REBUILT</div>
+      <h1>Your sleep is a system,<br><span>not a score.</span></h1>
+      <p class="lede">An interactive sleep-intelligence prototype exploring how duration, stress, activity, caffeine and other signals move a predicted sleep-quality estimate.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#explore">Explore a scenario</a>
+        <a class="button ghost" href="https://github.com/Iamlegend-Imani/SleepPredictor/tree/revamp/sleep-intelligence-v2" target="_blank" rel="noreferrer">View the rebuild</a>
+      </div>
+      <div class="metric-row">
+        <div class="metric"><strong>887</strong><span>historical sleep records</span></div>
+        <div class="metric"><strong>7.76</strong><span>original tuned test MAE</span></div>
+        <div class="metric"><strong>2021 → 2026</strong><span>research to product</span></div>
+      </div>
+    </section>
+
+    <section class="shell narrative-grid">
+      <article class="glass quote-card">
+        <p>“What if the useful question isn't <em>how did I sleep?</em> but <em>what changed in my system?</em>”</p>
+      </article>
+      <article class="glass mini-card">
+        <span class="kicker">ORIGINAL SIGNALS</span>
+        <p>Time in bed · heart rate · activity · wake state · coffee · tea · workouts · stressful days · late eating.</p>
+      </article>
+    </section>
+
+    <section id="explore" class="shell section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">INTERACTIVE PROTOTYPE</span>
+          <h2>Build tonight's scenario.</h2>
+        </div>
+        <p>This browser demo is a transparent directional estimator inspired by the original model features. It does not execute the Python model and is not a medical prediction.</p>
+      </div>
+
+      <div class="explorer-grid">
+        <form class="glass controls" id="sleep-form">
+          <label>
+            <span>Time in bed <output id="duration-value">8.0 h</output></span>
+            <input id="duration" type="range" min="3" max="12" step="0.25" value="8" />
+          </label>
+          <label>
+            <span>Heart rate <output id="hr-value">60 bpm</output></span>
+            <input id="heart-rate" type="range" min="45" max="100" step="1" value="60" />
+          </label>
+          <label>
+            <span>Activity <output id="steps-value">7000 steps</output></span>
+            <input id="steps" type="range" min="0" max="20000" step="500" value="7000" />
+          </label>
+
+          <div class="toggle-grid">
+            <label class="toggle"><input id="coffee" type="checkbox"><span>☕ Coffee</span></label>
+            <label class="toggle"><input id="workout" type="checkbox" checked><span>↗ Worked out</span></label>
+            <label class="toggle"><input id="stress" type="checkbox"><span>⚡ Stressful day</span></label>
+            <label class="toggle"><input id="late" type="checkbox"><span>◐ Ate late</span></label>
+          </div>
+
+          <label>
+            <span>Wake state</span>
+            <select id="wake-state">
+              <option value="happy">Happy</option>
+              <option value="okay" selected>Okay</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </label>
+        </form>
+
+        <div class="glass score-panel" aria-live="polite">
+          <span class="kicker">DIRECTIONAL ESTIMATE</span>
+          <div class="score-wrap">
+            <div class="score-ring" id="score-ring"><span id="score">82</span><small>/100</small></div>
+          </div>
+          <h3 id="score-label">Strong sleep conditions</h3>
+          <p id="score-copy">Your current scenario is being supported most by sleep duration and activity.</p>
+          <div class="drivers" id="drivers"></div>
+          <div class="fine-print">For exploration only. This static demo is not the trained Python model, diagnosis, treatment guidance, or evidence of causation.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section">
+      <div class="section-heading compact">
+        <div>
+          <span class="eyebrow">FROM SCORE TO SYSTEM</span>
+          <h2>What the rebuild changes.</h2>
+        </div>
+      </div>
+      <div class="cards-3">
+        <article class="glass feature-card"><span>01</span><h3>Prediction</h3><p>Estimate sleep quality from a set of behavioral and physiological inputs.</p></article>
+        <article class="glass feature-card"><span>02</span><h3>Sensitivity</h3><p>Change one condition at a time and observe how the model or demo estimate moves.</p></article>
+        <article class="glass feature-card"><span>03</span><h3>Interpretation</h3><p>Surface patterns without overstating correlation as medical or causal truth.</p></article>
+      </div>
+    </section>
+
+    <section id="research" class="shell section research">
+      <div>
+        <span class="eyebrow">RESEARCH PROVENANCE</span>
+        <h2>The original work stays visible.</h2>
+        <p>The project began as a data-science portfolio study using a historical sleep dataset. The 2026 rebuild preserves that notebook and dataset while replacing the unfinished template interface with a more coherent sleep-intelligence product direction.</p>
+        <div class="research-links">
+          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/blob/master/notebooks/Project2Portfolio.ipynb" target="_blank" rel="noreferrer">Original notebook ↗</a>
+          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/blob/master/sleepdata1.csv" target="_blank" rel="noreferrer">Original dataset ↗</a>
+          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/pull/4" target="_blank" rel="noreferrer">2026 revamp PR ↗</a>
+        </div>
+      </div>
+      <div class="glass research-panel">
+        <div><span>Baseline MAE</span><strong>10.56</strong></div>
+        <div><span>Tuned test MAE</span><strong>7.76</strong></div>
+        <div><span>Original rows</span><strong>887</strong></div>
+        <p>MAE is mean absolute error: in the original experiment, predictions differed from observed sleep-quality values by about 7.76 points on average on the held-out test set.</p>
+      </div>
+    </section>
+
+    <section class="shell cta glass">
+      <span class="eyebrow">THE NEXT QUESTION</span>
+      <h2>What changed in your system?</h2>
+      <p>SleepPredictor started with prediction. Sleep Intelligence moves toward longitudinal patterns, personal baselines, wearables, recovery and context.</p>
+      <a class="button primary" href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">Explore the repository</a>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Sleep Intelligence · SleepPredictor</span>
+    <span>Exploratory software · not a medical device</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
