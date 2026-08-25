@@ -1,0 +1,32 @@
+name: smoke-test
+
+on:
+  push:
+    branches:
+      - revamp/sleep-intelligence-v2
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile Python
+        run: python -m py_compile app.py modeling.py run.py
+
+      - name: Train model smoke test
+        run: python -c "from modeling import build_model; b=build_model(); print('rows=', len(b.data), 'mae=', round(b.test_mae, 3))"
+
+      - name: Import web app
+        run: python -c "import app; print(app.server)"
