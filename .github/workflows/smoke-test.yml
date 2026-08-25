@@ -30,3 +30,9 @@ jobs:
 
       - name: Import web app
         run: python -c "import app; print(app.server)"
+
+      - name: Check static dashboard files
+        run: test -f docs/index.html && test -f docs/styles.css && test -f docs/app.js
+
+      - name: Check browser JavaScript syntax
+        run: node --check docs/app.js
