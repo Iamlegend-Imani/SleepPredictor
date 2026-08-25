@@ -32,10 +32,10 @@ jobs:
         run: python -c "import app; print(app.server)"
 
       - name: Check static dashboard files
-        run: test -f index.html && test -f docs/index.html && test -f docs/styles.css && test -f docs/app.js && test -f docs/practical.js
+        run: test -f index.html && test -f docs/index.html && test -f docs/styles.css && test -f docs/app.js && test -f docs/practical.js && test -f docs/experience.js
 
       - name: Check browser JavaScript syntax
-        run: node --check docs/app.js && node --check docs/practical.js
+        run: node --check docs/app.js && node --check docs/practical.js && node --check docs/experience.js
 
       - name: Check published entry points
-        run: grep -q 'docs/practical.js' index.html && grep -q 'practical.js' docs/index.html
+        run: grep -q 'docs/experience.js' index.html && grep -q 'experience.js' docs/index.html && grep -q 'Sanaya' docs/experience.js
