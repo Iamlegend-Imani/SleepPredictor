@@ -3,13 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#050914" />
   <meta name="description" content="Sleep Intelligence — plan tonight, review tomorrow, and learn the conditions under which you sleep best." />
   <title>Sleep Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="docs/styles.css" />
+  <link rel="stylesheet" href="docs/styles.css?v=20260825-0331" />
 </head>
 <body>
   <div class="ambient ambient-a"></div>
@@ -72,7 +75,7 @@
     <section class="builder-panel panel" id="builder">
       <div class="section-label-row split"><div><span class="panel-title">SCENARIO BUILDER</span><button class="info-dot" type="button" data-tooltip="Change the inputs, recalculate, then save tonight to build your history." aria-label="About scenario builder">i</button></div><p>See how changes affect your estimate.</p></div>
       <form id="sleep-form" class="builder-grid">
-        <div class="control-card wide"><div class="control-label"><span>▰ Time in Bed</span><output id="duration-value">7h 45m</output></div><input id="duration" type="range" min="4.5" max="10" step="0.25" value="7.75" /><div class="range-labels"><span>4.5h</span><span>10h</span></div></div>
+        <div class="control-card wide"><div class="control-label"><span>▰ Time in Bed</span><output id="duration-value">7h 45m</output></div><input id="duration" type="range" min="3" max="12" step="0.25" value="7.75" /><div class="range-labels"><span>3h</span><span>12h</span></div></div>
         <div class="control-card"><div class="control-label"><span>☕ Coffee</span><output id="coffee-value">2 cups</output></div><div class="segmented control-segment" data-control="coffee"><button type="button" data-value="0">0</button><button type="button" data-value="1">1</button><button class="selected" type="button" data-value="2">2</button><button type="button" data-value="3">3+</button></div></div>
         <div class="control-card"><div class="control-label"><span>◌ Stress Level</span><output id="stress-value">Moderate</output></div><div class="segmented control-segment" data-control="stress"><button type="button" data-value="low">Low</button><button class="selected" type="button" data-value="moderate">Moderate</button><button type="button" data-value="high">High</button></div></div>
         <div class="control-card"><div class="control-label"><span>♥ Resting Heart Rate</span><output id="hr-value">58 bpm</output></div><input id="heart-rate" type="range" min="45" max="90" step="1" value="58" /></div>
@@ -93,10 +96,10 @@
     </section>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="docs/app.js"></script>
-  <script src="docs/practical.js"></script>
-  <script src="docs/experience.js"></script>
-  <script src="docs/guide.js"></script>
-  <script src="docs/soundscape.js"></script>
+  <script src="docs/app.js?v=20260825-0331"></script>
+  <script src="docs/practical.js?v=20260825-0331"></script>
+  <script src="docs/experience.js?v=20260825-0331"></script>
+  <script src="docs/guide.js?v=20260825-0331"></script>
+  <script src="docs/soundscape.js?v=20260825-0331"></script>
 </body>
 </html>
