@@ -38,4 +38,4 @@ jobs:
         run: node --check docs/app.js && node --check docs/practical.js && node --check docs/experience.js && node --check docs/guide.js && node --check docs/soundscape.js
 
       - name: Check published entry points
-        run: grep -q 'docs/guide.js' index.html && grep -q 'docs/soundscape.js' index.html && grep -q 'guide.js' docs/index.html && grep -q 'soundscape.js' docs/index.html && grep -q 'Start my sleep test' docs/guide.js && grep -q 'Eo has been removed' docs/guide.js
+        run: grep -q 'docs/guide.js' index.html && grep -q 'docs/soundscape.js' index.html && grep -q 'guide.js' docs/index.html && grep -q 'soundscape.js' docs/index.html && grep -q 'Start my sleep test' docs/guide.js && grep -q 'Sanaya, Neo, Trinity, Morpheus, and The Oracle' docs/guide.js && grep -q "button.dataset.persona='Neo'" docs/soundscape.js
