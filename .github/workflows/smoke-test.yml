@@ -32,10 +32,10 @@ jobs:
         run: python -c "import app; print(app.server)"
 
       - name: Check static dashboard files
-        run: test -f index.html && test -f docs/index.html && test -f docs/styles.css && test -f docs/app.js && test -f docs/practical.js && test -f docs/experience.js
+        run: test -f index.html && test -f docs/index.html && test -f docs/styles.css && test -f docs/app.js && test -f docs/practical.js && test -f docs/experience.js && test -f docs/guide.js && test -f docs/soundscape.js
 
       - name: Check browser JavaScript syntax
-        run: node --check docs/app.js && node --check docs/practical.js && node --check docs/experience.js
+        run: node --check docs/app.js && node --check docs/practical.js && node --check docs/experience.js && node --check docs/guide.js && node --check docs/soundscape.js
 
       - name: Check published entry points
-        run: grep -q 'docs/experience.js' index.html && grep -q 'experience.js' docs/index.html && grep -q 'Sanaya' docs/experience.js
+        run: grep -q 'docs/guide.js' index.html && grep -q 'docs/soundscape.js' index.html && grep -q 'guide.js' docs/index.html && grep -q 'soundscape.js' docs/index.html && grep -q 'Start my sleep test' docs/guide.js && grep -q 'Eo has been removed' docs/guide.js
