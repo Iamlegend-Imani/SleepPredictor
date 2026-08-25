@@ -10,7 +10,7 @@
     motion: `${PREFIX}experience:motion:v1`
   };
 
-  const DEFAULT_PERSONAS = ['Sanaya', 'Trinity', 'Neo', 'Eo', 'Morpheus', 'The Oracle'];
+  const DEFAULT_PERSONAS = ['Sanaya', 'Trinity', 'Neo', 'Morpheus', 'The Oracle'];
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
@@ -24,16 +24,19 @@
 
   function getPersonaList() {
     const stored = safeParse(localStorage.getItem(EXPERIENCE.list), []);
-    const merged = [...DEFAULT_PERSONAS, ...(Array.isArray(stored) ? stored : [])];
-    return [...new Set(merged.map((name) => String(name).trim()).filter(Boolean))];
+    const merged = [...DEFAULT_PERSONAS, ...(Array.isArray(stored) ? stored : [])]
+      .map((name) => String(name).trim())
+      .filter((name) => name && name.toLowerCase() !== 'eo');
+    return [...new Set(merged)];
   }
 
   function savePersonaList(list) {
-    localStorage.setItem(EXPERIENCE.list, JSON.stringify([...new Set(list)]));
+    localStorage.setItem(EXPERIENCE.list, JSON.stringify([...new Set(list)].filter((name) => String(name).trim().toLowerCase() !== 'eo')));
   }
 
   function activePersona() {
-    return localStorage.getItem(EXPERIENCE.current) || 'Sanaya';
+    const current = localStorage.getItem(EXPERIENCE.current) || 'Sanaya';
+    return current.trim().toLowerCase() === 'eo' ? 'Sanaya' : current;
   }
 
   function isExperienceKey(key) {
@@ -61,7 +64,7 @@
 
   function switchPersona(name) {
     const next = String(name || '').trim();
-    if (!next || next === activePersona()) return;
+    if (!next || next.toLowerCase() === 'eo' || next === activePersona()) return;
     const current = activePersona();
     snapshotPersona(current);
     const list = getPersonaList();
@@ -181,7 +184,7 @@
     const add = () => {
       const input = $('#persona-name-input', menu);
       const name = input?.value.trim();
-      if (!name) return;
+      if (!name || name.toLowerCase() === 'eo') return;
       switchPersona(name);
     };
     $('#persona-add-button', menu)?.addEventListener('click', add);
@@ -271,7 +274,7 @@
   }
 
   function init() {
-    if (!localStorage.getItem(EXPERIENCE.current)) localStorage.setItem(EXPERIENCE.current, 'Sanaya');
+    if (!localStorage.getItem(EXPERIENCE.current) || localStorage.getItem(EXPERIENCE.current)?.trim().toLowerCase() === 'eo') localStorage.setItem(EXPERIENCE.current, 'Sanaya');
     savePersonaList(getPersonaList());
     injectStyles();
     ensureBrightnessOverlay();
