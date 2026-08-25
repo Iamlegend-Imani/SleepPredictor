@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#071019" />
-  <meta name="description" content="Sleep Intelligence — an interactive exploration of sleep quality, habits, and model sensitivity built from the original SleepPredictor project." />
+  <meta name="theme-color" content="#050914" />
+  <meta name="description" content="Sleep Intelligence — explore the signals shaping tonight's sleep, test changes, and build a personal pattern over time." />
   <title>Sleep Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,147 +12,226 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
 
-  <header class="site-header shell">
-    <a class="brand" href="#top" aria-label="Sleep Intelligence home">
-      <span class="brand-mark">SI</span>
+  <header class="topbar">
+    <a class="brand" href="#dashboard" aria-label="Sleep Intelligence home">
+      <span class="brand-mark" aria-hidden="true">◉</span>
       <span>Sleep Intelligence</span>
     </a>
-    <nav>
-      <a href="#explore">Explore</a>
-      <a href="#research">Research</a>
-      <a href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">GitHub ↗</a>
+    <nav class="nav-tabs" aria-label="Primary navigation">
+      <a class="active" href="#dashboard">Dashboard</a>
+      <a href="#patterns">Trends</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#about">Learn</a>
     </nav>
+    <div class="top-actions">
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">☾</button>
+      <button class="ghost-button" id="reset-data" type="button">Reset data</button>
+    </div>
   </header>
 
-  <main id="top">
-    <section class="hero shell">
-      <div class="eyebrow">SLEEPPREDICTOR · REBUILT</div>
-      <h1>Your sleep is a system,<br><span>not a score.</span></h1>
-      <p class="lede">An interactive sleep-intelligence prototype exploring how duration, stress, activity, caffeine and other signals move a predicted sleep-quality estimate.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="#explore">Explore a scenario</a>
-        <a class="button ghost" href="https://github.com/Iamlegend-Imani/SleepPredictor/tree/revamp/sleep-intelligence-v2" target="_blank" rel="noreferrer">View the rebuild</a>
+  <main id="dashboard" class="dashboard-shell">
+    <section class="hero-panel panel">
+      <div class="hero-copy">
+        <span class="eyebrow">SLEEP INTELLIGENCE</span>
+        <h1>Your sleep is a system,<br><span>not a score.</span></h1>
+        <p>Understand what is shaping your sleep before you go to bed — then test what actually changes your pattern.</p>
+        <button class="primary-button" id="jump-to-builder" type="button">Get your estimate <span>→</span></button>
       </div>
-      <div class="metric-row">
-        <div class="metric"><strong>887</strong><span>historical sleep records</span></div>
-        <div class="metric"><strong>7.76</strong><span>original tuned test MAE</span></div>
-        <div class="metric"><strong>2021 → 2026</strong><span>research to product</span></div>
+      <div class="trust-row">
+        <span>⌂ Local-first</span>
+        <span>•</span>
+        <span>No wearable required</span>
+        <span>•</span>
+        <span>Evidence-informed</span>
       </div>
     </section>
 
-    <section class="shell narrative-grid">
-      <article class="glass quote-card">
-        <p>“What if the useful question isn't <em>how did I sleep?</em> but <em>what changed in my system?</em>”</p>
-      </article>
-      <article class="glass mini-card">
-        <span class="kicker">ORIGINAL SIGNALS</span>
-        <p>Time in bed · heart rate · activity · wake state · coffee · tea · workouts · stressful days · late eating.</p>
-      </article>
-    </section>
-
-    <section id="explore" class="shell section">
-      <div class="section-heading">
+    <section class="estimate-panel panel" aria-live="polite">
+      <div class="panel-heading">
         <div>
-          <span class="eyebrow">INTERACTIVE PROTOTYPE</span>
-          <h2>Build tonight's scenario.</h2>
+          <span class="panel-title">TONIGHT'S ESTIMATE</span>
+          <button class="info-dot" type="button" data-tooltip="A browser-based directional estimate. It is not the trained Python model and it is not a medical prediction." aria-label="About tonight's estimate">i</button>
         </div>
-        <p>This browser demo is a transparent directional estimator inspired by the original model features. It does not execute the Python model and is not a medical prediction.</p>
+        <span class="status-pill">Updated <span id="updated-time">now</span> <i></i></span>
       </div>
-
-      <div class="explorer-grid">
-        <form class="glass controls" id="sleep-form">
-          <label>
-            <span>Time in bed <output id="duration-value">8.0 h</output></span>
-            <input id="duration" type="range" min="3" max="12" step="0.25" value="8" />
-          </label>
-          <label>
-            <span>Heart rate <output id="hr-value">60 bpm</output></span>
-            <input id="heart-rate" type="range" min="45" max="100" step="1" value="60" />
-          </label>
-          <label>
-            <span>Activity <output id="steps-value">7000 steps</output></span>
-            <input id="steps" type="range" min="0" max="20000" step="500" value="7000" />
-          </label>
-
-          <div class="toggle-grid">
-            <label class="toggle"><input id="coffee" type="checkbox"><span>☕ Coffee</span></label>
-            <label class="toggle"><input id="workout" type="checkbox" checked><span>↗ Worked out</span></label>
-            <label class="toggle"><input id="stress" type="checkbox"><span>⚡ Stressful day</span></label>
-            <label class="toggle"><input id="late" type="checkbox"><span>◐ Ate late</span></label>
+      <div class="estimate-content">
+        <div class="score-ring" id="score-ring">
+          <div class="score-inner">
+            <strong id="score">84</strong>
+            <span>/100</span>
           </div>
-
-          <label>
-            <span>Wake state</span>
-            <select id="wake-state">
-              <option value="happy">Happy</option>
-              <option value="okay" selected>Okay</option>
-              <option value="unknown">Unknown</option>
-            </select>
-          </label>
-        </form>
-
-        <div class="glass score-panel" aria-live="polite">
-          <span class="kicker">DIRECTIONAL ESTIMATE</span>
-          <div class="score-wrap">
-            <div class="score-ring" id="score-ring"><span id="score">82</span><small>/100</small></div>
-          </div>
-          <h3 id="score-label">Strong sleep conditions</h3>
-          <p id="score-copy">Your current scenario is being supported most by sleep duration and activity.</p>
-          <div class="drivers" id="drivers"></div>
-          <div class="fine-print">For exploration only. This static demo is not the trained Python model, diagnosis, treatment guidance, or evidence of causation.</div>
+        </div>
+        <div class="estimate-summary">
+          <div class="moon-mark" aria-hidden="true">☾</div>
+          <h2 id="score-label">Likely restorative sleep tonight</h2>
+          <p id="score-copy">You're set up well for quality sleep. A few small tweaks could improve things even more.</p>
         </div>
       </div>
+      <div class="signal-badges" id="signal-badges"></div>
+      <p class="microcopy">This is an estimate, not a guarantee. Many factors can change.</p>
     </section>
 
-    <section class="shell section">
-      <div class="section-heading compact">
+    <section class="drivers-panel panel">
+      <div class="panel-heading">
         <div>
-          <span class="eyebrow">FROM SCORE TO SYSTEM</span>
-          <h2>What the rebuild changes.</h2>
+          <span class="panel-title">DRIVERS</span>
+          <button class="info-dot" type="button" data-tooltip="Drivers show how each input moves this browser estimate relative to its neutral baseline. They do not prove causation." aria-label="About drivers">i</button>
+        </div>
+        <div class="segmented mini" id="driver-filter" role="group" aria-label="Driver filter">
+          <button class="selected" type="button" data-filter="all">All</button>
+          <button type="button" data-filter="positive">Positive</button>
+          <button type="button" data-filter="negative">Negative</button>
         </div>
       </div>
-      <div class="cards-3">
-        <article class="glass feature-card"><span>01</span><h3>Prediction</h3><p>Estimate sleep quality from a set of behavioral and physiological inputs.</p></article>
-        <article class="glass feature-card"><span>02</span><h3>Sensitivity</h3><p>Change one condition at a time and observe how the model or demo estimate moves.</p></article>
-        <article class="glass feature-card"><span>03</span><h3>Interpretation</h3><p>Surface patterns without overstating correlation as medical or causal truth.</p></article>
+      <div class="driver-list" id="driver-list"></div>
+      <div class="driver-axis"><span>−20</span><span>−10</span><span>0</span><span>+10</span><span>+20</span></div>
+      <div class="impact-legend"><span class="negative-text">Negative impact</span><span class="positive-text">Positive impact</span></div>
+    </section>
+
+    <section class="change-panel panel">
+      <div class="section-label-row">
+        <div>
+          <span class="panel-title">WHAT TO CHANGE</span>
+          <button class="info-dot" type="button" data-tooltip="Suggestions are generated from the inputs currently pulling your estimate down." aria-label="About recommendations">i</button>
+        </div>
+      </div>
+      <div class="recommendation-grid" id="recommendation-grid"></div>
+    </section>
+
+    <section id="experiments" class="test-panel panel">
+      <div class="section-label-row split">
+        <div>
+          <span class="panel-title">WHAT TO TEST</span>
+          <p>Run simple 7-day experiments and see what moves your pattern.</p>
+        </div>
+        <button class="text-button" id="clear-experiments" type="button">Clear completed</button>
+      </div>
+      <div class="experiment-grid" id="experiment-grid"></div>
+    </section>
+
+    <section id="patterns" class="pattern-panel panel">
+      <div class="section-label-row split">
+        <div>
+          <span class="panel-title">YOUR PATTERN OVER TIME</span>
+          <button class="info-dot" type="button" data-tooltip="Saved estimates live only in this browser's local storage unless you clear them." aria-label="About history">i</button>
+        </div>
+        <div class="segmented mini" id="range-filter" role="group" aria-label="History range">
+          <button class="selected" type="button" data-range="7">7D</button>
+          <button type="button" data-range="30">30D</button>
+          <button type="button" data-range="90">90D</button>
+          <button type="button" data-range="all">All</button>
+        </div>
+      </div>
+      <div class="trend-layout">
+        <div class="chart-wrap">
+          <svg id="trend-chart" viewBox="0 0 760 260" preserveAspectRatio="none" role="img" aria-label="Sleep estimate trend"></svg>
+          <div class="chart-labels" id="chart-labels"></div>
+        </div>
+        <div class="metric-stack">
+          <div class="metric-card"><span>Average score</span><strong id="average-score">—</strong><small>selected range</small></div>
+          <div class="metric-card"><span>Best day</span><strong id="best-score">—</strong><small id="best-day">—</small></div>
+          <div class="metric-card disruptor"><span>Most common disruptor</span><strong id="common-disruptor">—</strong><small id="disruptor-count">—</small></div>
+        </div>
       </div>
     </section>
 
-    <section id="research" class="shell section research">
-      <div>
-        <span class="eyebrow">RESEARCH PROVENANCE</span>
-        <h2>The original work stays visible.</h2>
-        <p>The project began as a data-science portfolio study using a historical sleep dataset. The 2026 rebuild preserves that notebook and dataset while replacing the unfinished template interface with a more coherent sleep-intelligence product direction.</p>
-        <div class="research-links">
-          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/blob/master/notebooks/Project2Portfolio.ipynb" target="_blank" rel="noreferrer">Original notebook ↗</a>
-          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/blob/master/sleepdata1.csv" target="_blank" rel="noreferrer">Original dataset ↗</a>
-          <a href="https://github.com/Iamlegend-Imani/SleepPredictor/pull/4" target="_blank" rel="noreferrer">2026 revamp PR ↗</a>
+    <section class="builder-panel panel" id="builder">
+      <div class="section-label-row split">
+        <div>
+          <span class="panel-title">SCENARIO BUILDER</span>
+          <button class="info-dot" type="button" data-tooltip="Change the inputs, recalculate, then save tonight to build your history." aria-label="About scenario builder">i</button>
         </div>
+        <p>See how changes affect your estimate.</p>
       </div>
-      <div class="glass research-panel">
-        <div><span>Baseline MAE</span><strong>10.56</strong></div>
-        <div><span>Tuned test MAE</span><strong>7.76</strong></div>
-        <div><span>Original rows</span><strong>887</strong></div>
-        <p>MAE is mean absolute error: in the original experiment, predictions differed from observed sleep-quality values by about 7.76 points on average on the held-out test set.</p>
+
+      <form id="sleep-form" class="builder-grid">
+        <div class="control-card wide">
+          <div class="control-label"><span>▰ Time in Bed</span><output id="duration-value">7h 45m</output></div>
+          <input id="duration" type="range" min="4.5" max="10" step="0.25" value="7.75" />
+          <div class="range-labels"><span>4.5h</span><span>10h</span></div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>☕ Coffee</span><output id="coffee-value">2 cups</output></div>
+          <div class="segmented control-segment" data-control="coffee">
+            <button type="button" data-value="0">0</button><button type="button" data-value="1">1</button><button class="selected" type="button" data-value="2">2</button><button type="button" data-value="3">3+</button>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>◌ Stress Level</span><output id="stress-value">Moderate</output></div>
+          <div class="segmented control-segment" data-control="stress">
+            <button type="button" data-value="low">Low</button><button class="selected" type="button" data-value="moderate">Moderate</button><button type="button" data-value="high">High</button>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>♥ Resting Heart Rate</span><output id="hr-value">58 bpm</output></div>
+          <input id="heart-rate" type="range" min="45" max="90" step="1" value="58" />
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>⌁ Steps</span><output id="steps-value">8,500</output></div>
+          <input id="steps" type="range" min="0" max="20000" step="500" value="8500" />
+          <div class="range-labels"><span>0</span><span>20k</span></div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>◆ Workout</span><output id="workout-value">4+ hours before bed</output></div>
+          <label class="switch-row"><span>Completed today</span><input id="workout" type="checkbox" checked><i></i></label>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>♨ Tea</span><output id="tea-value">1 cup</output></div>
+          <div class="segmented control-segment" data-control="tea">
+            <button type="button" data-value="0">0</button><button class="selected" type="button" data-value="1">1</button><button type="button" data-value="2">2+</button>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>⌇ Late Eating</span><output id="late-value">2.5h before bed</output></div>
+          <label class="switch-row"><span>Ate within 3h of bed</span><input id="late-eating" type="checkbox" checked><i></i></label>
+        </div>
+
+        <div class="control-card">
+          <div class="control-label"><span>◫ Bedtime Consistency</span><output id="consistency-value">Good</output></div>
+          <div class="segmented control-segment" data-control="consistency">
+            <button type="button" data-value="variable">Variable</button><button class="selected" type="button" data-value="good">Good</button><button type="button" data-value="strong">Strong</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="builder-footer">
+        <button class="text-button" id="reset-scenario" type="button">↻ Reset scenario</button>
+        <div class="builder-score">Estimated Score <strong><span id="footer-score">84</span><small>/100</small></strong></div>
+        <div class="builder-actions">
+          <button class="secondary-button" id="save-tonight" type="button">Save tonight</button>
+          <button class="primary-button compact-button" id="recalculate" type="button">Recalculate <span>⌁</span></button>
+        </div>
       </div>
     </section>
 
-    <section class="shell cta glass">
-      <span class="eyebrow">THE NEXT QUESTION</span>
-      <h2>What changed in your system?</h2>
-      <p>SleepPredictor started with prediction. Sleep Intelligence moves toward longitudinal patterns, personal baselines, wearables, recovery and context.</p>
-      <a class="button primary" href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">Explore the repository</a>
+    <section id="about" class="about-strip panel">
+      <article>
+        <span class="about-icon">⬡</span>
+        <div><strong>About the Model</strong><p>The original project used 887 historical sleep records. This Pages experience uses a transparent browser heuristic so it can work statically.</p></div>
+      </article>
+      <article>
+        <span class="about-icon">◈</span>
+        <div><strong>Exploratory, not medical</strong><p>For informational and educational use only. It does not diagnose, treat, or prevent any condition.</p></div>
+      </article>
+      <article>
+        <span class="about-icon">▣</span>
+        <div><strong>Your data stays local</strong><p>Saved estimates and experiments are stored in your browser using local storage. Nothing is uploaded by this site.</p></div>
+      </article>
+      <a class="learn-link" href="https://github.com/Iamlegend-Imani/SleepPredictor" target="_blank" rel="noreferrer">Repository →</a>
     </section>
   </main>
 
-  <footer class="shell footer">
-    <span>Sleep Intelligence · SleepPredictor</span>
-    <span>Exploratory software · not a medical device</span>
-  </footer>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>
 </html>
